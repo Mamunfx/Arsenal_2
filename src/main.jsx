@@ -9,6 +9,7 @@ import Root from '../../arsenal/src/Root.jsx';
 import Home from '../../arsenal/src/Layouts/Home.jsx';
 import Signin from '../../arsenal/src/Layouts/Signin.jsx';
 import Signup from '../../arsenal/src/Layouts/Signup.jsx';
+import AuthProvider from '../../arsenal/src/Auth_Provider/AuthProvider.jsx';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,8 @@ const router = createBrowserRouter([
 ]);
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <AuthProvider>
     <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )
