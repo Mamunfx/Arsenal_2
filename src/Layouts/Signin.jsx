@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+
 import Navbar from '../../../arsenal/src/components/Navbar';
 import Footer from '../../../arsenal/src/components/Footer';
+import { AuthContext } from '../Auth_Provider/AuthProvider';
 
 const Signin = () => {
+  const {userLogin,handleGoogleSignIn}=useContext(AuthContext)
+
+  const handleLogin=(e)=>{
+    e.preventDefault()
+    const form=e.target
+    const email=form.email.value
+    const password=form.password.value
+    userLogin(email,password)
+    .then(result=>{
+      const loggedUser=result.user
+      console.log(loggedUser)
+      alert('Login successful!')
+      form.reset()
+    })
+    .catch(error=>{
+      console.error(error)
+      alert('Login failed')
+    })
+  }
     return (
       <div>
         <Navbar></Navbar>
@@ -25,7 +47,7 @@ const Signin = () => {
               </p>
             </div>
             <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-              <form className="card-body">
+              <form className="card-body" onSubmit={handleLogin}>
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Email</span>
@@ -33,6 +55,7 @@ const Signin = () => {
                   <input
                     type="email"
                     placeholder="email"
+                    name='email'
                     className="input input-bordered"
                     required
                   />
@@ -44,13 +67,12 @@ const Signin = () => {
                   <input
                     type="password"
                     placeholder="password"
+                    name='password'
                     className="input input-bordered"
                     required
                   />
-                  <label className="label">
-                    <a href="#" className="label-text-alt link link-hover">
-                      Forgot password?
-                    </a>
+                  <label className="label text-blue-500" >
+                    <Link to='/Signup'>Don't have an account?</Link>
                   </label>
                 </div>
                 <div className="form-control mt-6">

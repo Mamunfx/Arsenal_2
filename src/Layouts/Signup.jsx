@@ -8,8 +8,6 @@ const Signup = () => {
   const { handleGoogleSignIn, createNewUser, updateUserProfile,user } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState('');
-  console.log(user);
-  
 
   const handleSignup = (e) => {
     e.preventDefault();

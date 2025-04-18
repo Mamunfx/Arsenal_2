@@ -48,12 +48,12 @@ import { auth } from '../../../arsenal/src/firebase.init';
       setLoading(true);
       signInWithPopup(auth, googleProvider)
         .then(result => {
-          // console.log(result.user);
+          console.log(result.user);
           setUser(result.user);
          alert('Google sign-in successful!');
         })
         .catch(error => {
-          // console.log('ERROR', error);
+          console.log('ERROR', error);
           alert('Google sign-in failed');
           setUser(null);
         })
