@@ -17,7 +17,6 @@ import { auth } from '../../../arsenal/src/firebase.init';
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     
-    
     const createNewUser = (email, password) => {
       setLoading(true);
       return createUserWithEmailAndPassword(auth, email, password)
@@ -33,9 +32,6 @@ import { auth } from '../../../arsenal/src/firebase.init';
     };
   
     const logOut = () => {
-      if (!user) {
-        return ;
-      }
       setLoading(true);
       return signOut(auth)
         .then(() => alert('Loged out'))
@@ -83,6 +79,7 @@ import { auth } from '../../../arsenal/src/firebase.init';
       logOut,
       userLogin,
       loading,
+      setLoading,
       handleGoogleSignIn,
       updateUserProfile
     };

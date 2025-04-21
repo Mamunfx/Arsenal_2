@@ -10,6 +10,7 @@ import Home from '../../arsenal/src/Layouts/Home.jsx';
 import Signin from '../../arsenal/src/Layouts/Signin.jsx';
 import Signup from '../../arsenal/src/Layouts/Signup.jsx';
 import AuthProvider from '../../arsenal/src/Auth_Provider/AuthProvider.jsx';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,9 @@ const router = createBrowserRouter([
       },
       {
         path:"/Private",
-        element: <h1 className='text-4xl text-center font-semibold text-red-500'>This is the private route !</h1>
+        element: <PrivateRoute>
+          <h1 className='text-4xl text-center font-semibold text-red-500'>This is the private route !</h1>
+        </PrivateRoute>
       },
     ]
   },

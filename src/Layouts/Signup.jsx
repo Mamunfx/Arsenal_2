@@ -3,9 +3,10 @@ import { FcGoogle } from "react-icons/fc";
 import {AuthContext} from "../../src/Auth_Provider/AuthProvider"
 import Navbar from './../Components/Navbar';
 import Footer from './../Components/Footer';
+import Loading from './../Components/Loading';
 
 const Signup = () => {
-  const { handleGoogleSignIn, createNewUser, updateUserProfile,user } = useContext(AuthContext);
+  const { handleGoogleSignIn, createNewUser, updateUserProfile,loading} = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -35,7 +36,11 @@ const Signup = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div className="hero bg-blue-600 min-h-fit rounded-lg py-24">
+      {
+        loading ?
+        <Loading></Loading>
+        :
+        <div className="hero bg-blue-600 min-h-fit rounded-lg py-24">
         <div className="hero-content flex-col lg:flex-row-reverse gap-16">
           <div className="text-center lg:text-left text-white">
             <h1 className="text-5xl font-bold">Sign up now!</h1>
@@ -126,6 +131,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      }
 
       <Footer></Footer>
     </div>

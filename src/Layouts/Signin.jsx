@@ -1,24 +1,32 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Navbar from '../../../arsenal/src/components/Navbar';
 import Footer from '../../../arsenal/src/components/Footer';
 import { AuthContext } from '../Auth_Provider/AuthProvider';
+import Loading from './../Components/Loading';
+
+
 
 const Signin = () => {
-  const {userLogin,handleGoogleSignIn}=useContext(AuthContext)
-
+  const {userLogin,handleGoogleSignIn,loading,setUser}=useContext(AuthContext);
+  const location =useLocation();
+  const Navigate = useNavigate();
+  const handleGoggle=()=>{
+    handleGoogleSignIn()
+  }
   const handleLogin=(e)=>{
     e.preventDefault()
     const form=e.target
     const email=form.email.value
     const password=form.password.value
+    
     userLogin(email,password)
     .then(result=>{
-      const loggedUser=result.user
-      console.log(loggedUser)
-      alert('Login successful!')
+      const user = result.user;
+      setUser(user)
       form.reset()
+      Navigate(location?.state ? location.state : "/")
     })
     .catch(error=>{
       console.error(error)
@@ -28,15 +36,12 @@ const Signin = () => {
     return (
       <div>
         <Navbar></Navbar>
-        
-        <div className="form-control flex justify-self-end ">
-          <label className="label cursor-pointer flex justify-center gap-4 ">
-            <span className="label-text ">Dark mode</span>
-            <input type="checkbox" className="toggle" defaultChecked onClick={() => window.toggleTheme()}/>
-          </label>
-        </div>
 
-        <div className="hero bg-base-200 min-h-screen">
+        {
+          loading ? 
+          <Loading></Loading> 
+          :
+          <div className="hero bg-base-200 min-h-screen">
           <div className="hero-content flex-col lg:flex-row-reverse">
             <div className="text-center lg:text-left">
               <h1 className="text-5xl font-bold">Login now!</h1>
@@ -78,10 +83,14 @@ const Signin = () => {
                 <div className="form-control mt-6">
                   <button className="btn btn-primary">Login</button>
                 </div>
+                <div className="form-control mt-6" onClick={handleGoggle}>
+                  <button className="btn btn-primary">Goggle</button>
+                </div>
               </form>
             </div>
           </div>
         </div>
+        }
 
         <Footer></Footer>
       </div>
