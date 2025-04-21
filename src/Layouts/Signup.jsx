@@ -4,24 +4,37 @@ import {AuthContext} from "../../src/Auth_Provider/AuthProvider"
 import Navbar from './../Components/Navbar';
 import Footer from './../Components/Footer';
 import Loading from './../Components/Loading';
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const { handleGoogleSignIn, createNewUser, updateUserProfile,loading} = useContext(AuthContext);
+  const { handleGoogleSignIn, createNewUser, updateUserProfile,loading } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState('');
+  const [err , setErr]=useState({});
+  const location= useLocation();
+  const navigate= useNavigate();
 
   const handleSignup = (e) => {
     e.preventDefault();
     setErrorMessage('');
     const email = e.target.email.value;
     const password = e.target.password.value;
+    if (password.length < 6 ) {
+      setErr({...err , password: 'Password must be at least 6 characters long'});
+      return;
+    }
     const Name = e.target.Name.value;
+    if (Name.length < 5) {
+      setErr({...err , Name: 'Name must be at least 5 characters long'});
+      return;
+    }
     const photo = e.target.photo?.value;
 
     createNewUser(email, password)
       .then((result) => {
         updateUserProfile({ displayName: Name, photoURL: photo })
           .then(() => {
+            navigate(location?.state ? location.state : '/')
           })
           .catch((err) => {
             setErrorMessage(err.message);
@@ -64,6 +77,9 @@ const Signup = () => {
                   name="Name"
                   required
                 />
+                {err.Name && (
+                <p className="text-red-600 mb-4">{err.Name}</p>
+                 )}
               </div>
               <div className="form-control">
                 <label className="label">
@@ -99,6 +115,9 @@ const Signup = () => {
                   name="password"
                   required
                 />
+                {err.password && (
+                <p className="text-red-600 mb-4">{err.password}</p>
+                 )}
               </div>
               {errorMessage && (
                 <p className="text-red-600 mb-4">{errorMessage}</p>

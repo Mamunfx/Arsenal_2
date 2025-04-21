@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Navbar from '../../../arsenal/src/components/Navbar';
@@ -10,6 +10,7 @@ import Loading from './../Components/Loading';
 
 const Signin = () => {
   const {userLogin,handleGoogleSignIn,loading,setUser}=useContext(AuthContext);
+  const [err , setErr]=useState({});
   const location =useLocation();
   const Navigate = useNavigate();
   const handleGoggle=()=>{
@@ -29,8 +30,7 @@ const Signin = () => {
       Navigate(location?.state ? location.state : "/")
     })
     .catch(error=>{
-      console.error(error)
-      alert('Login failed')
+      setErr( {...error , login:error.code})
     })
   }
     return (
@@ -76,6 +76,11 @@ const Signin = () => {
                     className="input input-bordered"
                     required
                   />
+                  <div>
+                  {
+                    err.login && <label className="label text-red-500 text-lg py-4">{err.login}</label>
+                  }
+                  </div>
                   <label className="label text-blue-500" >
                     <Link to='/Signup'>Don't have an account?</Link>
                   </label>
